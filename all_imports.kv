@@ -1,0 +1,82 @@
+#: import utils kivy.utils
+
+<SwipeToEditItem>:
+    anchor: "right"
+    type_swipe: "hand"
+    max_opened_x: root.max_x
+    size_hint_y: None
+    height: food_item_content.height
+    radius: [18]
+    on_swipe_complete: root.create_buttons([root.edit_button, root.favorites_button])
+
+    MDCardSwipeLayerBox:
+        id: card_layer_box
+        padding: 8
+        size_hint: 0.8, 1
+        pos_hint: {"right": 0.969}
+        Widget:
+
+    MDCardSwipeFrontBox:
+        md_bg_color: get_color_from_hex("#DBF5F0")
+        radius: 18
+        TwoLineIconListItem:
+            id: food_item_content
+            icon_color: get_color_from_hex("#28282B")
+            text: root.text
+            secondary_text: root.secondary_text
+            IconLeftWidget:
+                icon: "information-outline"
+                on_release: app.big_screen.ids.screen_manager.get_screen(root.screen_name).info_dialog_content.open_info_dialog(root)
+
+        MDBoxLayout:
+            size_hint: 0.5, 1
+            MDLabel:
+                text: root.label_text
+                halign: "right"
+                padding_x: 30
+                bold: True
+
+
+<CustomInfoItem>:
+    size_hint_y: None
+    size: self.width, self.ids.amount_label.height + 20
+    MDLabel:
+        text: root.text
+        bold: root.bold
+        font_size: root.font_size
+
+    MDBoxLayout:
+        padding: 15
+        MDLabel:
+            id: amount_label
+            text: root.amount
+            bold: root.bold
+            halign: "right"
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+
+<CustomFavoritesItem>:
+    IconLeftWidget:
+        icon: "plus"
+        pos_hint: {"center_y": 0.5}
+        on_release: app.big_screen.ids.screen_manager.children[0].food_dialog_content.add_favorite_to_main(root)
+
+    IconRightWidget:
+        icon: "trash-can"
+        on_release: app.big_screen.ids.screen_manager.children[0].food_dialog_content.remove_favorites(root)
+
+
+<AddItemButton@MDFloatingActionButton>:
+    icon: "plus"
+    icon_type: "standard"
+    theme_icon_color: "Custom"
+    icon_color: get_color_from_hex("#ffffff")
+    md_bg_color: get_color_from_hex("#1d839d")
+    pos_hint: {"center_x": 0.5, "center_y": 0.6}
+
+
+<CustomFillRoundFlatIconButton@MDFillRoundFlatIconButton>:
+    font_size: "24sp"
+    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+    md_bg_color: get_color_from_hex("#0c6170")

@@ -1,0 +1,70 @@
+#: import utils kivy.utils
+
+<BigScreen>:
+    orientation: "vertical"
+    screen: root.current_screen()
+    MDToolbar:
+        id: toolbar
+        title: root.screen
+        elevation: 10
+        left_action_items: [["menu", lambda x: self.parent.ids.nav_drawer.set_state("open")]]
+        right_action_items: [["dots-vertical", lambda x: root.callback(x)]]
+        md_bg_color: get_color_from_hex("#0C6170")
+        specific_text_color: get_color_from_hex("#ffffff")
+
+    MDNavigationLayout:
+        id: nav_layout
+
+        WindowManager:
+            id: screen_manager
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                id: content_drawer
+                nav_drawer: nav_drawer
+
+
+<ItemDrawer>:
+    theme_text_color: "Custom"
+    text_color: get_color_from_hex("#ffffff")
+    on_release:
+        self.parent.parent.parent.nav_drawer.set_state("close")
+        app.big_screen.switch_screen(root.next_screen)
+
+    IconLeftWidget:
+        id: nav_icon
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: get_color_from_hex("#a4e5e0")
+
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    spacing: 10
+    md_bg_color: get_color_from_hex("#1d839d")
+
+    MDCard:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#37beb1")
+        size_hint_y: None
+        height: 125
+        spacing: 20
+        padding: [20, 20, 0, 20]
+        radius: [0, 0, 18, 18]
+        MDLabel:
+            text: "Food and Fitness Tracker"
+            font_style: "Subtitle1"
+            bold: True
+            color: get_color_from_hex("#ffffff")
+            adaptive_height: True
+        MDLabel:
+            text: "Your personal daily log of meals and fitness activities, coupled with graphing functionality and progress monitoring!"
+            color: get_color_from_hex("#fcecf1")
+            font_style: "Caption"
+            adaptive_height: True
+
+    ScrollView:
+        DrawerList:
+            id: list_for_nav_drawer

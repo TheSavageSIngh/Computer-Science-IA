@@ -1,0 +1,86 @@
+#: import utils kivy.utils
+
+<TitleCard@MDBoxLayout>:
+    orientation: "vertical"
+    padding: [20, 10, 20, 10]
+    md_bg_color: get_color_from_hex("#37BEB0")
+
+<ButtonHolder@MDCard>:
+    header_text: ""
+    orientation: "vertical"
+    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+    md_bg_color: get_color_from_hex("#A4E5E0")
+    radius: 18
+    MDBoxLayout:
+        size_hint: 1, 0.5
+        MDLabel:
+            text: root.header_text
+            font_style: "H3"
+            bold: True
+            halign: "center"
+            valign: "bottom"
+
+<ButtonCard@MDCard>:
+    icon_: ""
+    subtext: ""
+    orientation: "vertical"
+    elevation: 15
+    padding: [0, 10, 0, 0]
+    md_bg_color: get_color_from_hex("#DBF5F0")
+    radius: 18
+    MDIcon:
+        icon: root.icon_
+        font_size: "60sp"
+        halign: "center"
+    MDLabel:
+        text: root.subtext
+        halign: "center"
+
+<MainWindow>:
+    name: "main"
+    on_leave: app.previous_screen = self.name
+    MDBoxLayout:
+        orientation: "vertical"
+        TitleCard:
+            ButtonHolder:
+                header_text: "My Health"
+                GridLayout:
+                    rows: 1
+                    cols: 2
+                    spacing: 20
+                    padding: [20, 5, 20, 20]
+                    ButtonCard:
+                        icon_: "food"
+                        subtext: "Food"
+                        on_press: root.switch_screen("food")
+                    ButtonCard:
+                        icon_: "dumbbell"
+                        subtext: "Fitness"
+                        on_press: root.switch_screen("fitness")
+
+        TitleCard:
+            ButtonHolder:
+                header_text: "Statistics"
+                GridLayout:
+                    rows: 1
+                    cols: 1
+                    spacing: 20
+                    padding: [20, 5, 20, 20]
+                    ButtonCard:
+                        icon_: "chart-line"
+                        subtext: "Charts and Graphs"
+                        on_press: root.switch_screen("charts_and_graphs")
+
+        TitleCard:
+            ButtonHolder:
+                header_text: "My Profile"
+                GridLayout:
+                    rows: 1
+                    cols: 1
+                    spacing: 20
+                    padding: [20, 5, 20, 20]
+                    ButtonCard:
+                        icon_: "face-profile"
+                        subtext: "User Profile"
+                        on_press:
+                            root.switch_screen("user_profile")

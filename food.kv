@@ -1,0 +1,301 @@
+#: import utils kivy.utils
+
+<CustomSpecificDateItem>:
+    size_hint_y: None
+    height: food_item_content.height
+
+    MDCardSwipeLayerBox:
+        padding: "8dp"
+        Widget:
+
+    MDCardSwipeFrontBox:
+        md_bg_color: get_color_from_hex("#A4E5E0")
+        TwoLineListItem:
+            id: food_item_content
+            text: root.text
+            secondary_text: root.secondary_text
+        MDBoxLayout:
+            size_hint: 0.5, 1
+            MDLabel:
+                text: root.label_text
+                bold: True
+                halign: "right"
+                padding_x: 30
+
+<DisplayFoodInfo>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "600sp"
+    ScrollView:
+        MDList:
+            id: list_for_food_info
+
+<DisplayWorkoutInfo>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "300sp"
+    ScrollView:
+        MDList:
+            id: list_for_workout_info
+
+<SearchedSelectAmount>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "100sp"
+    Widget:
+    MDBoxLayout:
+        MDTextField:
+            id: food_amount
+            line_color_focus: get_color_from_hex("#946eef")
+            pos_hint: {"center_y": .3}
+            max_text_length: 4
+            input_filter: "int"
+        MDDropDownItem:
+            id: measurement_picker
+            pos_hint: {"center_x": 0.5, "center_y": 0.56}
+            text: "Measurement Type"
+            on_release: root.measurement_menu.open()
+    Widget:
+
+<SearchedItemInfo>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "400sp"
+    ScrollView:
+        MDList:
+            id: list_for_info
+
+<Food>:
+    name: "food"
+    MDCard:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#37BEB0")
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: 10
+            spacing: 10
+            size_hint: 1, 2
+            MDCard:
+                radius: 18
+                size_hint_y: None
+                height: 50
+                MDLabel:
+                    text: root.toolbar_date
+                    halign: "center"
+                    bold: True
+            MDCard:
+                orientation: "vertical"
+                md_bg_color: get_color_from_hex("#A4E5E0")
+                radius: 18
+                MDBoxLayout:
+                    orientation: "vertical"
+                    ScrollView:
+                        scroll_timeout: 100
+                        MDSelectionList:
+                            id: list_for_food
+                            name: "list_for_food"
+                            padding: [10, 10, 10, 0]
+                            spacing: 1
+                            overlay_color: get_color_from_hex("#cb3d4c")[:-1] + [.2]
+                            icon_bg_color: get_color_from_hex("#ed4c56")
+                            progress_round_color: get_color_from_hex("#e79ea7")
+                            on_selected: root.on_selected(*args)
+                            on_unselected: root.on_unselected(*args)
+                            on_selected_mode: root.selection_mode(*args)
+                MDBoxLayout:
+                    size_hint: 1, 0.2
+                    padding: 10
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    Widget:
+                    AddItemButton:
+                        id: add_button
+                        on_release: root.add_food_dialog.open()
+                    Widget:
+            MDCard:
+                id: graph_card
+                size_hint_y: None
+                size: self.width, 200
+                radius: 18
+                padding: 10
+                md_bg_color: get_color_from_hex("#DBF5F0")
+                MDBoxLayout:
+                    id: progress_bar_box
+                    orientation: "vertical"
+    FloatLayout:
+        MDIconButton:
+            id: date_picker_button
+            icon: "calendar"
+            pos_hint: {"center_x": 0.88, "center_y": 0.35}
+            on_release: root.open_date_picker()
+
+<MacroProgressBar>:
+    orientation: "vertical"
+    MDLabel:
+        text: root.text
+        font_size: 12
+        size_hint_y: None
+        size: self.width, 10
+    MDProgressBar:
+        size_hint_y: None
+        size: self.width, 20
+        color: get_color_from_hex("#e75c6a")
+        value: root.value
+
+<EditFood>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "600sp"
+    MDBoxLayout:
+        orientation: "vertical"
+        CustomTab:
+            id: edit_food_content
+
+<NutritionInfoTextField>:
+    main_label: ""
+    measurement_type: ""
+    MDLabel:
+        id: nutrients_name
+        text: root.main_label
+        valign: "center"
+        halign: "left"
+        theme_text_color: "Custom"
+        text_color: get_color_from_hex("#00826f")
+
+    MDBoxLayout:
+        size_hint_x: 0.38
+        MDTextField:
+            id: nutrition_info
+            size_hint_x: None
+            size: 30, self.height
+            line_color_focus: get_color_from_hex("#00a08d")
+            pos_hint: {"center_y": .5}
+            max_text_length: 4
+            input_filter: "int"
+
+        MDLabel:
+            text: root.measurement_type
+            valign: "center"
+            halign: "right"
+            theme_text_color: "Custom"
+            text_color: get_color_from_hex("#00826f")
+
+<CustomTab>:
+    MDBoxLayout:
+        orientation: "vertical"
+        MDBoxLayout:
+            size_hint_y: None
+            size: self.width, 50
+            MDLabel:
+                text: "Name:"
+                size_hint_x: None
+                size: 60, self.height
+                valign: "center"
+                theme_text_color: "Custom"
+                text_color: get_color_from_hex("#00826f")
+            MDTextField:
+                id: food_name
+                hint_text: "Enter name of food"
+                line_color_focus: get_color_from_hex("#00a08d")
+                pos_hint: {"center_y": .5}
+        MDBoxLayout:
+            size_hint_y: None
+            size: self.width, 50
+            MDLabel:
+                text: "Amount: "
+                size_hint_x: None
+                size: 70, self.height
+                valign: "center"
+                theme_text_color: "Custom"
+                text_color: get_color_from_hex("#00826f")
+            Widget:
+            MDTextField:
+                id: food_amount
+                size_hint_x: None
+                size: 30, self.height
+                line_color_focus: get_color_from_hex("#00a08d")
+                pos_hint: {"center_y": .5}
+                max_text_length: 4
+                input_filter: "int"
+            Widget:
+            MDDropDownItem:
+                id: measurement_picker
+                pos_hint: {"center_x": 0.5, "center_y": 0.56}
+                text: "Measurement"
+                on_press: root.measurement_menu.open()
+        MDBoxLayout:
+            id: nutrients_box
+            orientation: "vertical"
+
+
+<SearchTab>:
+    orientation: "vertical"
+    spacing: 10
+    MDBoxLayout:
+        adaptive_height: True
+        MDIconButton:
+            icon: "magnify"
+        MDTextField:
+            id: search_field
+            hint_text: "Search for food item"
+            line_color_focus: get_color_from_hex("#00a08d")
+            pos_hint: {"center_y": 0.45}
+            on_text: root.set_list_food_items(search_field.text, True)
+    RecycleView:
+        id: search_food_items
+        viewclass: "CustomSearchItem"
+        RecycleBoxLayout:
+            padding: 10
+            default_size: None, 48
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+
+
+<FavoritesTab>:
+    MDBoxLayout:
+        orientation: "vertical"
+        ScrollView:
+            MDList:
+                id: favorites_items
+
+<AddFood>:
+    # the AddFood class inherits attributes from the MDBoxLayout class
+    orientation: "vertical"  # make add orientation of items to vertical
+    spacing: "12dp"  # change the spacing between each item
+    size_hint_y: None
+    height: "600sp"  # set a definitive height to the dialog
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#DBF5F0")
+        # create a tab setup with 3 tabs
+        MDTabs:
+            id: food_tabs
+            background_color: get_color_from_hex("#1d839d")
+            indicator_color: get_color_from_hex("#dbf5f0")
+            on_tab_switch: root.on_tab_switch(*args)
+            # custom tab class which inherits from MDFloatLayout and MDTabsBase
+            # give each tab a specific id based on the content of the tab
+            AddFoodTab:
+                id: custom_tab  # tab to add a custom food
+                title: "Custom"
+                CustomTab:
+                    id: custom_tab_content  # content within the tab (inputs for each data field)
+
+            AddFoodTab:  # tab to add food from favorites
+                id: favorites_tab
+                title: "Favorites"
+                FavoritesTab:
+                    id: favorites_tab_content  # content within the tab (each item from the favorites database)
+
+            AddFoodTab:  # tab to add food from a database which you can search
+                id: search_tab
+                title: "Search"
+                SearchTab:
+                    id: search_tab_content  # content within the tab (search bar with recycle layout)
+
+<SpecificDateItems>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "400sp"

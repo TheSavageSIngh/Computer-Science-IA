@@ -1,0 +1,161 @@
+#: import utils kivy.utils
+
+<AddTime>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: 350
+    MDCard:
+        id: exercise_name_card
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#A4E5E0")
+        padding: 10
+        size_hint_y: None
+        height: exercise_name.height + 20
+        radius: 18
+        MDLabel:
+            id: exercise_name
+            text: ""
+            halign: "center"
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+
+    MDBoxLayout:
+        size_hint_y: None
+        height: 30
+        Widget:
+            size_hint: 2, 1
+        MDLabel:
+            text: "MET:"
+            halign: "center"
+        MDLabel:
+            id: met_value
+            text: ""
+            halign: "center"
+        Widget:
+            size_hint: 2, 1
+
+    MDBoxLayout:
+        MDBoxLayout:
+            orientation: "vertical"
+            Widget:
+            MDLabel:
+                text: "Pick Start Time"
+                halign: "center"
+                valign: "center"
+                font_size: 14
+            Widget:
+            MDFloatingActionButton:
+                icon: "clock"
+                pos_hint: {"center_x": 0.5}
+                md_bg_color: get_color_from_hex("#37BEB0")
+                on_release: root.open_start_time_picker()
+            Widget:
+        MDBoxLayout:
+            orientation: "vertical"
+            Widget:
+            MDLabel:
+                text: "Pick End Time"
+                halign: "center"
+                valign: "center"
+                font_size: 14
+            Widget:
+            MDFloatingActionButton:
+                icon: "clock"
+                pos_hint: {"center_x": 0.5}
+                md_bg_color: get_color_from_hex("#37BEB0")
+                on_release: root.open_end_time_picker()
+            Widget:
+    Widget:
+        size_hint_y: None
+        height: 5
+
+<AddWorkout>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "400sp"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        MDDropDownItem:
+            id: category_picker
+            text: "Category"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_release: root.category_picker_menu.open()
+        MDBoxLayout:
+            adaptive_height: True
+            MDIconButton:
+                icon: "magnify"
+            MDTextField:
+                id: workout_search_field
+                hint_text: "Search Exercise"
+                line_color_focus: get_color_from_hex("#00a08d")
+                on_text: root.set_list_exercises_search(category_picker.text, self.text, True)
+
+        RecycleView:
+            id: workout_search_bar
+            key_viewclass: 'viewclass'
+            key_size: 'height'
+            RecycleBoxLayout:
+                padding: 10
+                default_size: None, 60
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+
+<Fitness>:
+    name: "fitness"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 10
+        md_bg_color: get_color_from_hex("#37BEB0")
+        MDCard:
+            radius: 18
+            size_hint_y: None
+            height: 50
+            MDLabel:
+                text: root.toolbar_date
+                halign: "center"
+                bold: True
+        MDCard:
+            orientation: "vertical"
+            md_bg_color: get_color_from_hex("#A4E5E0")
+            radius: 18
+            size_hint: 1, 1.5
+            MDBoxLayout:
+                orientation: "vertical"
+                ScrollView:
+                    scroll_timeout : 100
+                    MDSelectionList:
+                        id: list_for_workouts
+                        name: "list_for_workouts"
+                        padding: [10, 10, 10, 0]
+                        spacing: 1
+                        overlay_color: get_color_from_hex("#cb3d4c")[:-1] + [.2]
+                        icon_bg_color: get_color_from_hex("#ed4c56")
+                        progress_round_color: get_color_from_hex("#e79ea7")
+                        on_selected: root.on_selected(*args)
+                        on_unselected: root.on_unselected(*args)
+                        on_selected_mode: root.selection_mode(*args)
+            MDBoxLayout:
+                size_hint: 1, 0.2
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                Widget:
+                AddItemButton:
+                    id: add_button
+                    on_release: root.add_workout_dialog.open()
+                Widget:
+        CustomFillRoundFlatIconButton:
+            icon: "calendar"
+            text: "View Schedule"
+        MDCard:
+            id: graph_card
+            size_hint_y: None
+            size: self.width, 200
+            radius: 18
+            padding: 10
+            md_bg_color: get_color_from_hex("#DBF5F0")
